@@ -215,9 +215,12 @@ ServerInfo* GC::FindServer(
 	const GCString& name
 )
 {
+	std::scoped_lock lock(mMutex);
+
 	auto it = mServers.find(name);
 	if (it != mServers.end())
 		return &it->second;
+
 	return nullptr;
 } // ServerInfo *GC::FindServer
 
@@ -272,6 +275,8 @@ bool GC::HasServer(
 	const GCString& name
 ) const
 {
+	std::scoped_lock lock(mMutex);
+
 	return mServers.find(name) != mServers.end();
 } // bool GC::HasServer
 

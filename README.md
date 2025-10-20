@@ -1,2 +1,2 @@
 # OpenG(ame)C(oordinator)
-A FOSS solution for making in-game server browsers.
+A single-header FOSS C++ solution for making in-game server browsers.

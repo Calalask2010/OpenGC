@@ -13,6 +13,7 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <mutex>
 
 typedef std::string GCString;
 
@@ -126,6 +127,7 @@ class GC final
 	private:
 		GCMap<GCString, ServerInfo> mServers;
 		Regions mServerRegion;
+		mutable std::mutex mMutex;
 
 }; // class GC
 
@@ -167,6 +169,8 @@ bool GC::AddServer(
 	const ServerInfo& server
 )
 {
+	std::scoped_lock lock(mMutex);
+
 	if (server.region == Regions::None)
 	{
 		LOG("Cannot add server with region 'None'\n");
@@ -183,11 +187,15 @@ bool GC::RemoveServer(
 	const GCString& name
 )
 {
+	std::scoped_lock lock(mMutex);
+
 	auto it = mServers.find(name);
 	if (it == mServers.end())
 		return false;
+	
 	mServers.erase(it);
-	std::cout << "[LOG] Removed server: " << name << "\n";
+
+	LOG("Removed server: " + name);
 	return true;
 } // bool GC::RemoveServer
 
@@ -203,14 +211,19 @@ ServerInfo* GC::FindServer(
 
 GCVector<ServerInfo> GC::ListServers() const
 {
+	std::scoped_lock lock(mMutex);
+
 	GCVector<ServerInfo> list;
 	for (const auto& kv : mServers)
 		list.push_back(kv.second);
+
 	return list;
 } // GCVector<ServerInfo> GC::ListServers
 
 bool GC::SetServerStatus(const GCString& name, bool isOnline)
 {
+	std::scoped_lock lock(mMutex);
+
 	auto it = mServers.find(name);
 	if (it == mServers.end())
 		return false;
@@ -223,6 +236,8 @@ bool GC::SetServerStatus(const GCString& name, bool isOnline)
 
 GCVector<ServerInfo> GC::ListServers(Regions filterRegion, bool onlyOnline) const
 {
+	std::scoped_lock lock(mMutex);
+
 	GCVector<ServerInfo> list;
 	for (const auto& kv : mServers)
 	{

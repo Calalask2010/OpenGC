@@ -7,4 +7,12 @@
 #ifndef OPENGC_HPP
 #define OPENGC_HPP
 
+#pragma once
+
+#ifdef OPENGC_IMPLEMENTATION
+
+
+
+#endif // OPENGC_IMPLEMENTATION
+
 #endif // OPENGC_HPP

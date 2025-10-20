@@ -58,6 +58,17 @@ enum class Directions
 	Last,
 }; // enum class Directions
 
+/**
+ * Server info structure
+ */
+struct ServerInfo
+{
+	GCString name;
+	GCString address;
+	Regions region;
+	bool isOnline;
+}; // struct ServerInfo
+
 namespace OpenGC
 {
 

@@ -103,7 +103,13 @@ class GC final
 		ServerInfo* FindServer(
 			const GCString& name
 		);
+
 		GCVector<ServerInfo> ListServers() const;
+		GCVector<ServerInfo> ListServers(Regions filterRegion, bool onlyOnline = false) const;
+
+		/* Server info stuff */
+		bool SetServerStatus(const GCString& name, bool isOnline);
+		bool HasServer(const GCString& name) const;
 
 	private:
 		GCMap<GCString, ServerInfo> mServers;
@@ -140,7 +146,6 @@ bool GC::Initialize(
 	LOG(fullText);
 	return true;
 }; // bool GC::Initialize
-
 
 bool GC::AddServer(
 	const ServerInfo& server
@@ -187,6 +192,37 @@ GCVector<ServerInfo> GC::ListServers() const
 		list.push_back(kv.second);
 	return list;
 } // GCVector<ServerInfo> GC::ListServers
+
+bool GC::SetServerStatus(const GCString& name, bool isOnline)
+{
+	auto it = mServers.find(name);
+	if (it == mServers.end())
+		return false;
+
+	it->second.isOnline = isOnline;
+
+	LOG("Updated server status for: " + name);
+	return true;
+} // bool GC::SetServerStatus
+
+GCVector<ServerInfo> GC::ListServers(Regions filterRegion, bool onlyOnline) const
+{
+	GCVector<ServerInfo> list;
+	for (const auto& kv : mServers)
+	{
+		const auto& s = kv.second;
+		if ((filterRegion == Regions::None || s.region == filterRegion) &&
+			(!onlyOnline || s.isOnline))
+			list.push_back(s);
+	}
+
+	return list;
+} // GCVector<ServerInfo> GC::ListServers
+
+bool GC::HasServer(const GCString& name) const
+{
+	return mServers.find(name) != mServers.end();
+} // bool GC::HasServer
 
 #endif // OPENGC_IMPLEMENTATION
 

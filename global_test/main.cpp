@@ -12,7 +12,8 @@ using namespace OpenGC;
 int main() {
 	GC gc;
 	gc.Initialize(
-		true /* client */
+		true, /* client */
+		Regions::Europe
 	);
 
 	return 0;

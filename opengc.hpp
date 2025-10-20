@@ -29,10 +29,15 @@ enum class Directions
 	Last,
 }; // enum class Directions
 
+namespace OpenGC
+{
+
 #ifdef OPENGC_IMPLEMENTATION
 
 
 
 #endif // OPENGC_IMPLEMENTATION
+
+}; // namespace OpenGC
 
 #endif // OPENGC_HPP

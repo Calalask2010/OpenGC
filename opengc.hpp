@@ -10,8 +10,17 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <unordered_map>
+#include <iostream>
 
 typedef std::string GCString;
+
+template <typename T>
+using GCVector = std::vector<T>;
+
+template <typename K, typename V>
+using GCMap = std::unordered_map<K, V>;
 
 #ifndef OPENGC_NO_LOGS
 #include <iostream>
@@ -85,8 +94,19 @@ class GC final
 			bool isClient,
 			Regions region
 		);
+		bool AddServer(
+			const ServerInfo& server
+		);
+		bool RemoveServer(
+			const GCString& name
+		);
+		ServerInfo* FindServer(
+			const GCString& name
+		);
+		GCVector<ServerInfo> ListServers() const;
 
 	private:
+		GCMap<GCString, ServerInfo> mServers;
 		Regions mServerRegion;
 
 }; // class GC
@@ -116,8 +136,57 @@ bool GC::Initialize(
 		return false;
 	}
 
+	GCString fullText = "GC initialized for region: " + std::to_string(static_cast<int>(region));
+	LOG(fullText);
 	return true;
 }; // bool GC::Initialize
+
+
+bool GC::AddServer(
+	const ServerInfo& server
+)
+{
+	if (server.region == Regions::None)
+	{
+		LOG("Cannot add server with region 'None'\n");
+		return false;
+	}
+
+	mServers[server.name] = server;
+	LOG("Added server: " + server.name);
+	return true;
+} // bool GC::AddServer
+
+
+bool GC::RemoveServer(
+	const GCString& name
+)
+{
+	auto it = mServers.find(name);
+	if (it == mServers.end())
+		return false;
+	mServers.erase(it);
+	std::cout << "[LOG] Removed server: " << name << "\n";
+	return true;
+} // bool GC::RemoveServer
+
+ServerInfo* GC::FindServer(
+	const GCString& name
+)
+{
+	auto it = mServers.find(name);
+	if (it != mServers.end())
+		return &it->second;
+	return nullptr;
+} // ServerInfo *GC::FindServer
+
+GCVector<ServerInfo> GC::ListServers() const
+{
+	GCVector<ServerInfo> list;
+	for (const auto& kv : mServers)
+		list.push_back(kv.second);
+	return list;
+} // GCVector<ServerInfo> GC::ListServers
 
 #endif // OPENGC_IMPLEMENTATION
 

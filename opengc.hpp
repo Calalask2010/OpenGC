@@ -9,6 +9,26 @@
 
 #pragma once
 
+enum class Regions
+{
+	None = -1,
+	Europe = 0,
+	Asia,
+	Africa,
+	America,
+	Last,
+}; // enum class Regions
+
+enum class Directions
+{
+	None = -1,
+	East = 0,
+	West,
+	South,
+	North,
+	Last,
+}; // enum class Directions
+
 #ifdef OPENGC_IMPLEMENTATION
 
 

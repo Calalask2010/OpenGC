@@ -9,6 +9,9 @@
 
 #pragma once
 
+/**
+ * Region enumerations
+ */
 enum class Regions
 {
 	None = -1,
@@ -19,6 +22,9 @@ enum class Regions
 	Last,
 }; // enum class Regions
 
+/**
+ * Direction enumerations
+ */
 enum class Directions
 {
 	None = -1,
@@ -32,9 +38,35 @@ enum class Directions
 namespace OpenGC
 {
 
+/**
+ * The game coordinator class
+ */
+class GC final
+{
+	public:
+		GC();
+		~GC();
+
+		bool Initialize();
+	
+}; // class GC
+
 #ifdef OPENGC_IMPLEMENTATION
 
+GC::GC()
+{
 
+}; // GC::GC
+
+GC::~GC()
+{
+
+}; // GC::~GC
+
+bool GC::Initialize()
+{
+	
+}; // bool GC::Initialize
 
 #endif // OPENGC_IMPLEMENTATION
 

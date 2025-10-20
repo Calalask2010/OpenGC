@@ -47,7 +47,9 @@ class GC final
 		GC();
 		~GC();
 
-		bool Initialize();
+		bool Initialize(
+			bool isClient
+		);
 	
 }; // class GC
 
@@ -63,9 +65,11 @@ GC::~GC()
 
 }; // GC::~GC
 
-bool GC::Initialize()
+bool GC::Initialize(
+	bool isClient
+)
 {
-	
+	return true;
 }; // bool GC::Initialize
 
 #endif // OPENGC_IMPLEMENTATION

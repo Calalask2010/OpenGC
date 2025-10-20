@@ -7,6 +7,13 @@
 #define OPENGC_IMPLEMENTATION
 #include "../opengc.hpp"
 
+using namespace OpenGC;
+
 int main() {
+	GC gc;
+	gc.Initialize(
+		true /* client */
+	);
+
 	return 0;
 }

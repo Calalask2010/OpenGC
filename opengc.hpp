@@ -22,6 +22,9 @@ using GCVector = std::vector<T>;
 template <typename K, typename V>
 using GCMap = std::unordered_map<K, V>;
 
+/* the current version. why? idk */
+constexpr const char* OPENGC_VERSION = "0.0.5";
+
 #ifndef OPENGC_NO_LOGS
 #include <iostream>
 
@@ -114,6 +117,12 @@ class GC final
 		/* since server region member is private */
 		Regions GetRegion() const { return mServerRegion; }
 
+		/* ..and the version */
+		inline GCString GetVersion() const
+		{
+			return OPENGC_VERSION;
+		}
+
 	private:
 		GCMap<GCString, ServerInfo> mServers;
 		Regions mServerRegion;
@@ -147,6 +156,10 @@ bool GC::Initialize(
 
 	GCString fullText = "GC initialized for region: " + std::to_string(static_cast<int>(region));
 	LOG(fullText);
+
+	/* ..and the version! */
+	LOG("OpenGC version: " + GetVersion());
+
 	return true;
 }; // bool GC::Initialize
 

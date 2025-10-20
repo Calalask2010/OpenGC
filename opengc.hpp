@@ -109,20 +109,32 @@ class GC final
 		);
 
 		GCVector<ServerInfo> ListServers() const;
-		GCVector<ServerInfo> ListServers(Regions filterRegion, bool onlyOnline = false) const;
+		GCVector<ServerInfo> ListServers(
+			Regions filterRegion,
+			bool onlyOnline = false
+		) const;
 
 		/* Server info stuff */
-		bool SetServerStatus(const GCString& name, bool isOnline);
-		bool HasServer(const GCString& name) const;
+		bool SetServerStatus(
+			const GCString& name,
+			bool isOnline
+		);
+
+		bool HasServer(
+			const GCString& name
+		) const;
 
 		/* since server region member is private */
-		Regions GetRegion() const { return mServerRegion; }
+		Regions GetRegion() const
+		{
+			return mServerRegion;
+		}; // Regions GetRegion
 
 		/* ..and the version */
 		inline GCString GetVersion() const
 		{
 			return OPENGC_VERSION;
-		}
+		}; // inline GCString GetVersion
 
 	private:
 		GCMap<GCString, ServerInfo> mServers;
@@ -220,7 +232,10 @@ GCVector<ServerInfo> GC::ListServers() const
 	return list;
 } // GCVector<ServerInfo> GC::ListServers
 
-bool GC::SetServerStatus(const GCString& name, bool isOnline)
+bool GC::SetServerStatus(
+	const GCString& name,
+	bool isOnline
+)
 {
 	std::scoped_lock lock(mMutex);
 
@@ -234,7 +249,10 @@ bool GC::SetServerStatus(const GCString& name, bool isOnline)
 	return true;
 } // bool GC::SetServerStatus
 
-GCVector<ServerInfo> GC::ListServers(Regions filterRegion, bool onlyOnline) const
+GCVector<ServerInfo> GC::ListServers(
+	Regions filterRegion,
+	bool onlyOnline
+) const
 {
 	std::scoped_lock lock(mMutex);
 
@@ -250,7 +268,9 @@ GCVector<ServerInfo> GC::ListServers(Regions filterRegion, bool onlyOnline) cons
 	return list;
 } // GCVector<ServerInfo> GC::ListServers
 
-bool GC::HasServer(const GCString& name) const
+bool GC::HasServer(
+	const GCString& name
+) const
 {
 	return mServers.find(name) != mServers.end();
 } // bool GC::HasServer

@@ -111,6 +111,9 @@ class GC final
 		bool SetServerStatus(const GCString& name, bool isOnline);
 		bool HasServer(const GCString& name) const;
 
+		/* since server region member is private */
+		Regions GetRegion() const { return mServerRegion; }
+
 	private:
 		GCMap<GCString, ServerInfo> mServers;
 		Regions mServerRegion;
